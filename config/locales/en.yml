@@ -1,0 +1,4 @@
+en:
+  param_check:
+    missing_required_parameter: "Missing required parameter: %{parameter}"
+    invalid_parameter: "Parameter %{parameter} is invalid. Expected %{expected} got %{got}"
