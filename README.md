@@ -97,7 +97,9 @@ end
 | -------- | ------- | ------- | ---------------------------------------------- | ------------------------------------------ |
 | required | Boolean | false   | true/false                                     | Is the parameter required?                 |
 | type     | Class   | nil     | Fixnum/Integer/String/ActionController::Params | Specifies the type the parameter should be |
-
+| min      | Integer | nil     | Any Integer                                    | Specifies the min threshold for the Int    |
+| max      | Integer | nil     | Any Integer                                    | Specifies the max threshold for the Int    |
+| in       | Array   | nil     | Array                                          | An array of values the param should match  |
 
 ## Development
 
