@@ -1,5 +1,9 @@
 # ParamCheck
 
+[![CircleCI](https://circleci.com/gh/cjmarkham/param_check.svg?style=svg&circle-token=ff228fe4c2537fd6baf7b4370d813aee2fc5cb88)](https://circleci.com/gh/cjmarkham/param_check)
+[![codecov](https://codecov.io/gh/cjmarkham/param_check/branch/master/graph/badge.svg?token=VPkZR1Im62)](https://codecov.io/gh/cjmarkham/param_check)
+
+
 Easily validate params for API methods.
 Are you sick of writing `respond_with(error) unless params[:foo].present?`? With ParamCheck, you can abstract
 all of the validation.
