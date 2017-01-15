@@ -133,4 +133,48 @@ describe ParamCheck do
       end
     end
   end
+
+  describe 'validate_range' do
+    it 'raises an error if value is less than min' do
+      expect {
+        param_check.send :validate_range, 'foo', 3, 5
+      }.to raise_error(ParamCheck::ParameterError,
+        I18n.t('param_check.invalid_minimum', parameter: 'foo', min: 5, got: 3)
+      )
+    end
+
+    it 'raises an error if value is nil and min specified' do
+      expect {
+        param_check.send :validate_range, 'foo', nil, 1
+      }.to raise_error(ParamCheck::ParameterError,
+        I18n.t('param_check.invalid_minimum', parameter: 'foo', min: 1, got: nil)
+      )
+    end
+
+    it 'raises an error if value is more than max' do
+      expect {
+        param_check.send :validate_range, 'foo', '3', nil, '1'
+      }.to raise_error(ParamCheck::ParameterError,
+        I18n.t('param_check.invalid_maximum', parameter: 'foo', max: 1, got: 3)
+      )
+    end
+
+    it 'raises an error if value is nil and max specified' do
+      expect {
+        param_check.send :validate_range, 'foo', nil, nil, '1'
+      }.to raise_error(ParamCheck::ParameterError,
+        I18n.t('param_check.invalid_maximum', parameter: 'foo', max: 1, got: nil)
+      )
+    end
+  end
+
+  describe 'validate_inclusion' do
+    it 'raises an error if param not in the list' do
+      expect {
+        param_check.send :validate_inclusion, 'foo', 'foo', ['bar', 'baz']
+      }.to raise_error(ParamCheck::ParameterError,
+        I18n.t('param_check.invalid_inclusion', parameter: 'foo', got: 'foo', expected: ['bar', 'baz'])
+      )
+    end
+  end
 end

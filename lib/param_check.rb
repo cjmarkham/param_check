@@ -28,16 +28,26 @@ module ParamCheck
     yield controller, index
   end
 
-  def validate! name, param, options
+  def validate! name, value, options
     if options[:required]
-      validate_presence name, param
+      validate_presence name, value
     end
 
-    validate_type name, param, options[:type]
+    if options[:type].present?
+      validate_type name, value, options[:type]
+    end
+
+    if options[:min].present? || options[:max].present?
+      validate_range name, value, options[:min], options[:max]
+    end
+
+    if options[:in].present?
+      validate_inclusion name, value, options[:in]
+    end
   end
 
-  def validate_presence name, param
-    if param.nil?
+  def validate_presence name, value
+    if value.nil?
       raise ParameterError, I18n.t(
         'param_check.missing_required_parameter',
         parameter: name,
@@ -45,25 +55,60 @@ module ParamCheck
     end
   end
 
-  def validate_type name, param, type
-    return if param.nil?
+  def validate_type name, value, type
+    return if value.nil?
 
     if type.in?([Integer, Fixnum])
-      is_numeric = Float(param) rescue nil
+      is_numeric = Float(value) rescue nil
       if ! is_numeric
         raise ParameterError, I18n.t(
           'param_check.invalid_parameter',
           parameter: name,
           expected: type,
-          got: param.class.name
+          got: value.class.name
         )
       end
-    elsif ! param.is_a? type
+    elsif ! value.is_a? type
       raise ParameterError, I18n.t(
         'param_check.invalid_parameter',
         parameter: name,
         expected: type,
-        got: param.class.name
+        got: value.class.name
+      )
+    end
+  end
+
+  def validate_range name, value, min = nil, max = nil
+    if min.present?
+      if value.nil? || value.to_i < min.to_i
+        raise ParameterError, I18n.t(
+          'param_check.invalid_minimum',
+          parameter: name,
+          min: min,
+          got: value,
+        )
+      end
+    end
+
+    if max.present?
+      if value.nil? || value.to_i > max.to_i
+        raise ParameterError, I18n.t(
+          'param_check.invalid_maximum',
+          parameter: name,
+          max: max,
+          got: value,
+        )
+      end
+    end
+  end
+
+  def validate_inclusion name, value, inclusion = []
+    if ! value.in?(inclusion)
+      raise ParameterError, I18n.t(
+        'param_check.invalid_inclusion',
+        parameter: name,
+        expected: inclusion,
+        got: value,
       )
     end
   end

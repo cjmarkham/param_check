@@ -68,6 +68,20 @@ params[:foo] = {
 params[:foo] = 'bar'
 ```
 
+### Validating range
+```ruby
+def index
+  param! :foo, min: 1, max: 3
+end
+```
+
+### Validating inclusion
+```ruby
+def index
+  param! :foo, in: ['foo', 'bar']
+end
+```
+
 By default, ParamCheck throws a `ParameterError` exception. You can rescue from this exception in order to
 respond with JSON for example:
 
