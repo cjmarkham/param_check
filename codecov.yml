@@ -1,0 +1,15 @@
+coverage:
+  ignore:
+  - bin/.*
+  - config/.*
+  status:
+    patch:
+      default:
+        target: 100
+    changes:
+      default:
+        branches:
+        - master
+    project:
+      default:
+        target: auto
