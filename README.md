@@ -79,6 +79,8 @@ end
 ```ruby
 def index
   param! :foo, in: ['foo', 'bar']
+  param! :bar, in: 1..4
+  param! :baz, in: 'a'..'z'
 end
 ```
 

@@ -175,6 +175,12 @@ describe ParamCheck do
       }.to raise_error(ParamCheck::ParameterError,
         I18n.t('param_check.invalid_inclusion', parameter: 'foo', got: 'foo', expected: ['bar', 'baz'])
       )
+
+      expect {
+        param_check.send :validate_inclusion, 'foo', 3, 1..2
+      }.to raise_error(ParamCheck::ParameterError,
+        I18n.t('param_check.invalid_inclusion', parameter: 'foo', got: 3, expected: '1..2')
+      )
     end
   end
 end
