@@ -2,6 +2,8 @@ en:
   param_check:
     missing_required_parameter: "Missing required parameter: %{parameter}"
     invalid_parameter: "Parameter %{parameter} is invalid. Expected %{expected}, got %{got}"
-    invalid_minimum: "Parameter %{parameter} must be at least %{min}, got %{got}"
-    invalid_maximum: "Parameter %{parameter} must not be more than %{max}, got %{got}"
     invalid_inclusion: "Parameter %{parameter} is not in the list. Expected inclusion in %{expected}, got %{got}"
+    value_not_less_than: "Parameter %{parameter} should be less than %{expected}. Got %{got}"
+    value_not_less_than_equal_to: "Parameter %{parameter} should be less than or equal to %{expected}. Got %{got}"
+    value_not_more_than: "Parameter %{parameter} should be more than %{expected}. Got %{got}"
+    value_not_more_than_equal_to: "Parameter %{parameter} should be more than or equal to %{expected}. Got %{got}"

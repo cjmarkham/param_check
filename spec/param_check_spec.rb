@@ -134,37 +134,193 @@ describe ParamCheck do
     end
   end
 
-  describe 'validate_range' do
-    it 'raises an error if value is less than min' do
-      expect {
-        param_check.send :validate_range, 'foo', 3, 5
-      }.to raise_error(ParamCheck::ParameterError,
-        I18n.t('param_check.invalid_minimum', parameter: 'foo', min: 5, got: 3)
-      )
+  describe 'validate_number' do
+    context 'less than' do
+      context 'value is more than' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 3, { lt: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_less_than', parameter: 'foo', expected: 2, got: 3)
+          )
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.1, { lt: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_less_than', parameter: 'foo', expected: 2, got: 2.1)
+          )
+        end
+      end
+
+      context 'value is equal to' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 3, { lt: 3 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_less_than', parameter: 'foo', expected: 3, got: 3)
+          )
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 3.0, { lt: 3 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_less_than', parameter: 'foo', expected: 3, got: 3.0)
+          )
+        end
+      end
+
+      context 'value is less than' do
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 2, { less_than: 3 }
+          }.to_not raise_error
+        end
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.9, { less_than: 3 }
+          }.to_not raise_error
+        end
+      end
     end
 
-    it 'raises an error if value is nil and min specified' do
-      expect {
-        param_check.send :validate_range, 'foo', nil, 1
-      }.to raise_error(ParamCheck::ParameterError,
-        I18n.t('param_check.invalid_minimum', parameter: 'foo', min: 1, got: nil)
-      )
+    context 'less than equal to' do
+      context 'value is more than' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 3, { lte: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_less_than_equal_to', parameter: 'foo', expected: 2, got: 3)
+          )
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.2, { lte: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_less_than_equal_to', parameter: 'foo', expected: 2, got: 2.2)
+          )
+        end
+      end
+
+      context 'value is equal to' do
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 3, { less_than_equal_to: 3 }
+          }.to_not raise_error
+        end
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 3.0, { less_than_equal_to: 3 }
+          }.to_not raise_error
+        end
+      end
+
+      context 'value is less than' do
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 2, { less_than_equal_to: 3 }
+          }.to_not raise_error
+        end
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.2, { less_than_equal_to: 3 }
+          }.to_not raise_error
+        end
+      end
     end
 
-    it 'raises an error if value is more than max' do
-      expect {
-        param_check.send :validate_range, 'foo', '3', nil, '1'
-      }.to raise_error(ParamCheck::ParameterError,
-        I18n.t('param_check.invalid_maximum', parameter: 'foo', max: 1, got: 3)
-      )
+    context 'more than' do
+      context 'value is less than' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 1, { mt: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_more_than', parameter: 'foo', expected: 2, got: 1)
+          )
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 1.9, { mt: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_more_than', parameter: 'foo', expected: 2, got: 1.9)
+          )
+        end
+      end
+
+      context 'value is equal to' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 2, { mt: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_more_than', parameter: 'foo', expected: 2, got: 2)
+          )
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.0, { mt: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_more_than', parameter: 'foo', expected: 2, got: 2.0)
+          )
+        end
+      end
+
+      context 'value is more than' do
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 3, { mt: 2 }
+          }.to_not raise_error
+        end
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.1, { mt: 2 }
+          }.to_not raise_error
+        end
+      end
     end
 
-    it 'raises an error if value is nil and max specified' do
-      expect {
-        param_check.send :validate_range, 'foo', nil, nil, '1'
-      }.to raise_error(ParamCheck::ParameterError,
-        I18n.t('param_check.invalid_maximum', parameter: 'foo', max: 1, got: nil)
-      )
+    context 'more than equal to' do
+      context 'value is less than' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 1, { mte: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_more_than_equal_to', parameter: 'foo', expected: 2, got: 1)
+          )
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 1.9, { mte: 2 }
+          }.to raise_error(ParamCheck::ParameterError,
+            I18n.t('param_check.value_not_more_than_equal_to', parameter: 'foo', expected: 2, got: 1.9)
+          )
+        end
+      end
+
+      context 'value is equal to' do
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 2, { mte: 2 }
+          }.to_not raise_error
+        end
+        it 'raises an error' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.0, { mte: 2 }
+          }.to_not raise_error
+        end
+      end
+
+      context 'value is more than' do
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 3, { mte: 2 }
+          }.to_not raise_error
+        end
+        it 'succeeds' do
+          expect {
+            param_check.send :validate_number, 'foo', 2.1, { mte: 2 }
+          }.to_not raise_error
+        end
+      end
     end
   end
 

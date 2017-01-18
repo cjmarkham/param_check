@@ -78,27 +78,46 @@ module ParamCheck
     end
   end
 
-  def validate_range name, value, min = nil, max = nil
-    if min.present?
-      if value.nil? || value.to_i < min.to_i
-        raise ParameterError, I18n.t(
-          'param_check.invalid_minimum',
-          parameter: name,
-          min: min,
-          got: value,
-        )
-      end
+  def validate_number name, value, options = {}
+    options[:lt] = options[:less_than] if options[:less_than].present?
+    options[:lte] = options[:less_than_equal_to] if options[:less_than_equal_to].present?
+    options[:mt] = options[:more_than] if options[:more_than].present?
+    options[:more_than_equal_to] = options[:more_than_equal_to] if options[:more_than_equal_to].present?
+
+    if options[:lt].present?
+      raise ParameterError, I18n.t(
+        'param_check.value_not_less_than',
+        parameter: name,
+        expected: options[:lt],
+        got: value,
+      ) if value >= options[:lt]
     end
 
-    if max.present?
-      if value.nil? || value.to_i > max.to_i
-        raise ParameterError, I18n.t(
-          'param_check.invalid_maximum',
-          parameter: name,
-          max: max,
-          got: value,
-        )
-      end
+    if options[:lte].present?
+      raise ParameterError, I18n.t(
+        'param_check.value_not_less_than_equal_to',
+        parameter: name,
+        expected: options[:lte],
+        got: value,
+      ) if value > options[:lte]
+    end
+
+    if options[:mt].present?
+      raise ParameterError, I18n.t(
+        'param_check.value_not_more_than',
+        parameter: name,
+        expected: options[:mt],
+        got: value,
+      ) if value <= options[:mt]
+    end
+
+    if options[:mte].present?
+      raise ParameterError, I18n.t(
+        'param_check.value_not_more_than_equal_to',
+        parameter: name,
+        expected: options[:mte],
+        got: value,
+      ) if value < options[:mte]
     end
   end
 
