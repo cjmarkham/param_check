@@ -84,6 +84,8 @@ end
 ```ruby
 def index
   param! :foo, in: ['foo', 'bar']
+  param! :bar, in: 1..4
+  param! :baz, in: 'a'..'z'
 end
 ```
 
@@ -98,6 +100,7 @@ end
 ```
 
 ## Options
+<<<<<<< HEAD
 | Option   | Type    | Default | Values                                               | Description                                         |
 | -------- | ------- | ------- | ---------------------------------------------------- | --------------------------------------------------- |
 | required | Boolean | false   | true/false                                           | Is the parameter required?                          |
@@ -106,7 +109,12 @@ end
 | lte      | Integer | nil     | Integer/Float                                        | The parameter value should be less than or equal to |
 | mt       | Integer | nil     | Integer/Float                                        | The parameter value should be more than             |
 | mte      | Integer | nil     | Integer/Float                                        | The parameter value should be more than or equal to |
+| in       | Array   | nil     | Array                                                | An array of values the param should match           |
 
+## Production sites using this gem
+Submit a PR to add your site to the list
+
+[Givey](https://www.givey.com)
 
 ## Development
 
