@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Validate parameters for Rails API methods}
   spec.description   = %q{Validate parameters presence and type for Rails API methods}
-  spec.homepage      = "https://cjmarkham.co.uk"
+  spec.homepage      = "https://github.com/cjmarkham/param_check"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
