@@ -100,9 +100,8 @@ end
 ```
 
 ## Options
-<<<<<<< HEAD
 | Option   | Type    | Default | Values                                               | Description                                         |
-| -------- | ------- | ------- | ---------------------------------------------------- | --------------------------------------------------- |
+| -------- | ------- | ------- | ---------------------------------------------------- | ------------------------------------- ------------- |
 | required | Boolean | false   | true/false                                           | Is the parameter required?                          |
 | type     | Class   | nil     | Fixnum/Integer/Float/String/ActionController::Params | Specifies the type the parameter should be          |
 | lt       | Integer | nil     | Integer/Float                                        | The parameter value should be less than             |
