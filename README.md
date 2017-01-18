@@ -68,10 +68,15 @@ params[:foo] = {
 params[:foo] = 'bar'
 ```
 
-### Validating range
+### Validating numbers
+For number validation, you can use either the long hand keys `less_than` or the short hand `lt`
+
 ```ruby
 def index
-  param! :foo, min: 1, max: 3
+  param! :foo, lt: 2
+  param! :bar, lte: 3
+  param! :baz, mt: 4
+  param! :bazzy, mte: 5
 end
 ```
 
@@ -93,10 +98,14 @@ end
 ```
 
 ## Options
-| Option   | Type    | Default | Values                                         | Description                                |
-| -------- | ------- | ------- | ---------------------------------------------- | ------------------------------------------ |
-| required | Boolean | false   | true/false                                     | Is the parameter required?                 |
-| type     | Class   | nil     | Fixnum/Integer/String/ActionController::Params | Specifies the type the parameter should be |
+| Option   | Type    | Default | Values                                               | Description                                         |
+| -------- | ------- | ------- | ---------------------------------------------------- | --------------------------------------------------- |
+| required | Boolean | false   | true/false                                           | Is the parameter required?                          |
+| type     | Class   | nil     | Fixnum/Integer/Float/String/ActionController::Params | Specifies the type the parameter should be          |
+| lt       | Integer | nil     | Integer/Float                                        | The parameter value should be less than             |
+| lte      | Integer | nil     | Integer/Float                                        | The parameter value should be less than or equal to |
+| mt       | Integer | nil     | Integer/Float                                        | The parameter value should be more than             |
+| mte      | Integer | nil     | Integer/Float                                        | The parameter value should be more than or equal to |
 
 
 ## Development
