@@ -37,8 +37,13 @@ module ParamCheck
       validate_type name, value, options[:type]
     end
 
-    if options[:min].present? || options[:max].present?
-      validate_range name, value, options[:min], options[:max]
+    if [
+      :lt,  :less_than,
+      :lte, :less_than_equal_to,
+      :mt,  :more_than,
+      :mte, :more_than_equal_to
+    ].map{|option| option.in?(options.keys.map(&:to_sym))}.any?
+      validate_number name, value.to_f, options
     end
 
     if options[:in].present?
